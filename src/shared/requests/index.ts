@@ -51,15 +51,16 @@ export const getCommits = async (params: {
 	contributor: string;
 	since: string;
 	until: string;
+	sha: string;
 }) => {
 	const data = await axios.get(
 		`https://api.github.com/repos/${params.repo}/commits`,
 		{
 			params: {
-				author: params.contributor.toLocaleLowerCase(),
+				author: params.contributor,
 				since: params.since,
 				until: params.until,
-				sha: '720b2156c7621619e71319e66387ab3c9f7bc45b',
+				sha: params.sha,
 			},
 			headers: {
 				'Content-Type': 'application/json',
@@ -68,9 +69,13 @@ export const getCommits = async (params: {
 			},
 		}
 	);
-	console.log(data);
 	if (data.status === 200) {
-		return data.data;
+		return data.data.length
+			? data.data.map((commit: any) => ({
+					message: commit.commit.message,
+					url: commit.html_url,
+			  }))
+			: [];
 	}
 
 	return false;
@@ -95,13 +100,15 @@ export const getBranches = async (
 	console.log(data);
 
 	if (data.status === 200) {
-		setBranches(data.data);
-		return data.data.length
-			? data.data.map((item: any) => ({
-					name: item.name,
-					sha: item.commit.sha,
-			  }))
-			: [];
+		setBranches(
+			data.data.length
+				? data.data.map((item: any) => ({
+						name: item.name,
+						sha: item.commit.sha,
+				  }))
+				: []
+		);
+		return true;
 	}
 
 	return false;

@@ -30,6 +30,7 @@ const HomePage = () => {
 	const [user, setUser] = useState<any>();
 	const [contributors, setContributors] = useState([]);
 	const [branches, setBranches] = useState<Branches>([]);
+	const [commits, setCommits] = useState([]);
 	const [selectedBranch, setSelectedBranch] = useState('');
 	const [date, setDate] = useState();
 	const [form, setForm] = useState({
@@ -43,14 +44,7 @@ const HomePage = () => {
 
 	const defaultValuesHandler = useCallback(() => {
 		dateFormat();
-
-		// if (user) {
-		// 	setForm((currentData) => ({
-		// 		...currentData,
-		// 		contributor: user.name,
-		// 	}));
-		// }
-	}, [user]);
+	}, []);
 
 	const inputChangeHandler = (e: any) => {
 		setForm((currentData) => ({ ...currentData, token: e.target.value }));
@@ -61,18 +55,25 @@ const HomePage = () => {
 	};
 
 	const dateFormat = (date = new Date()) => {
+		const day = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
+		const month =
+			date.getMonth() < 10 ? `0${date.getMonth()}` : date.getMonth();
 		setForm((currentData) => ({
 			...currentData,
-			since: `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}T00:00:00Z`,
-			until: `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}T23:59:59Z`,
+			since: `${date.getFullYear()}-${month}-${day}T00:00:00Z`,
+			until: `${date.getFullYear()}-${month}-${day}T23:59:59Z`,
 		}));
 	};
 
 	const branchesHandler = async (e: any) => {
 		setSelectedBranch(e.target.value);
 
-		const sha = branches?.find((item) => item.name === e.target.value)?.sha;
-		sha && setForm((currentData) => ({ ...currentData, sha: sha }));
+		const branch = branches.find((item) => item.name === selectedBranch);
+		console.log(branch);
+		setForm((currentData) => ({
+			...currentData,
+			sha: e.target.value,
+		}));
 	};
 
 	const dateChangeHandler = (data: any) => {
@@ -89,8 +90,14 @@ const HomePage = () => {
 		}
 	};
 
-	const submitHandler = () => {
-		getCommits(form);
+	const submitHandler = async () => {
+		const data = await getCommits(form);
+
+		if (data) {
+			setCommits(data);
+		}
+
+		console.log(commits);
 	};
 	const contentWithoutUser = (
 		<>
@@ -118,19 +125,6 @@ const HomePage = () => {
 			</Button>
 		</>
 	);
-	useEffect(() => {
-		form.token &&
-			form.repo &&
-			getRepoContributors(form.token, form.repo, setContributors);
-	}, [form.repo, form.token]);
-
-	useEffect(() => {
-		form.token && form.repo && getBranches(form.token, form.repo, setBranches);
-	}, [form.repo, form.token]);
-
-	useEffect(() => {
-		defaultValuesHandler();
-	}, [defaultValuesHandler, form.repo]);
 
 	const contentWithUser = (
 		<>
@@ -205,8 +199,40 @@ const HomePage = () => {
 			>
 				Gerar Relatório de Commits
 			</Button>
+
+			{commits.length ? (
+				<TextField
+					fullWidth
+					label="Relatório de commits"
+					multiline
+					placeholder="Nada aqui ainda"
+					value={commits.map(
+						(commit: any) => `${commit.message}\n${commit.url}\n\n`
+					)}
+				/>
+			) : (
+				<Description>
+					Você ainda não gerou um relatório ou não há commits para mostrar
+				</Description>
+			)}
 		</>
 	);
+
+	const generateCommitsList = () => {};
+
+	useEffect(() => {
+		form.token &&
+			form.repo &&
+			getRepoContributors(form.token, form.repo, setContributors);
+	}, [form.repo, form.token]);
+
+	useEffect(() => {
+		form.token && form.repo && getBranches(form.token, form.repo, setBranches);
+	}, [form.repo, form.token]);
+
+	useEffect(() => {
+		defaultValuesHandler();
+	}, [defaultValuesHandler, form.repo]);
 
 	return (
 		<Centered>
