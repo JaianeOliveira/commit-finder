@@ -1,28 +1,14 @@
 import TextField from '@mui/material/TextField';
 import styled from 'styled-components';
 
+export const Row = styled.div`
+	display: flex;
+	gap: 14px;
+`;
+
 export const StyledInput = styled(TextField)({
-	'& label.Mui-focused': {
-		color: '#D6D6D6',
-	},
-	'& label': {
-		color: '#D6D6D6',
-	},
-	'& .MuiInput-underline:after': {
-		borderBottomColor: '#D6D6D6',
-	},
 	'& .MuiOutlinedInput-root': {
 		width: 400,
-		color: '#D6D6D6',
-		'& fieldset': {
-			borderColor: '#D6D6D6',
-		},
-		'&:hover fieldset': {
-			borderColor: '#D6D6D6',
-		},
-		'&.Mui-focused fieldset': {
-			borderColor: '#D6D6D6',
-		},
 	},
 });
 
