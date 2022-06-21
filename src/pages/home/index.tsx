@@ -56,8 +56,8 @@ const HomePage = () => {
 
 	const dateFormat = (date = new Date()) => {
 		const day = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
-		const month =
-			date.getMonth() < 10 ? `0${date.getMonth()}` : date.getMonth();
+		const currentMonth = date.getMonth() + 1;
+		const month = currentMonth < 10 ? `0${currentMonth}` : currentMonth;
 		setForm((currentData) => ({
 			...currentData,
 			since: `${date.getFullYear()}-${month}-${day}T00:00:00Z`,
@@ -69,7 +69,6 @@ const HomePage = () => {
 		setSelectedBranch(e.target.value);
 
 		const branch = branches.find((item) => item.name === selectedBranch);
-		console.log(branch);
 		setForm((currentData) => ({
 			...currentData,
 			sha: e.target.value,
