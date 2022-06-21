@@ -10,7 +10,12 @@ export const getUser = async (token: string, setUser: (data: any) => void) => {
 	});
 
 	if (data.status === 200) {
-		setUser(data.data);
+		setUser({
+			name: data.data.name,
+			token: token,
+			profile: data.data.html_url,
+			user: data.data.user,
+		});
 		return true;
 	}
 

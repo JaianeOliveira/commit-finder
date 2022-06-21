@@ -17,7 +17,8 @@ import { TextField } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/lab';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { forEachLeadingCommentRange } from 'typescript';
+import { useAppDispatch } from '../../hooks/useRedux';
+import { setUser as setUserDispatch } from '../../shared/redux/user';
 
 type Branch = {
 	name: string;
@@ -27,7 +28,18 @@ type Branch = {
 type Branches = Branch[] | [];
 
 const HomePage = () => {
-	const [user, setUser] = useState<any>();
+	const dispatch = useAppDispatch();
+	const [user, setUser] = useState<{
+		name: string | null;
+		token: string | null;
+		profile: string | null;
+		user: string | null;
+	}>({
+		name: null,
+		token: null,
+		profile: null,
+		user: null,
+	});
 	const [contributors, setContributors] = useState([]);
 	const [branches, setBranches] = useState<Branches>([]);
 	const [commits, setCommits] = useState([]);
@@ -86,6 +98,9 @@ const HomePage = () => {
 	const getUserHandler = async () => {
 		if (form.token.length) {
 			const result = await getUser(form.token, setUser);
+			if (result) {
+				dispatch(setUserDispatch(user));
+			}
 		}
 	};
 
@@ -143,6 +158,7 @@ const HomePage = () => {
 						fullWidth
 						id="contributor"
 						value={form.contributor}
+						defaultValue={user.user}
 						label="Contribuidor"
 						onChange={contributorChangeHandler}
 						disabled={!contributors.length}
@@ -235,8 +251,8 @@ const HomePage = () => {
 
 	return (
 		<Centered>
-			<Title>Oi {user ? user.name : 'pessoa'}</Title>
-			{user ? contentWithUser : contentWithoutUser}
+			<Title>Oi {user.token ? user.name : 'pessoa'}</Title>
+			{user.token ? contentWithUser : contentWithoutUser}
 		</Centered>
 	);
 };
