@@ -4,6 +4,7 @@ import styled from 'styled-components';
 export const Row = styled.div`
 	display: flex;
 	gap: 14px;
+	flex-wrap: wrap;
 `;
 
 export const StyledInput = styled(TextField)({
