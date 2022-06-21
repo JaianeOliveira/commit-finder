@@ -9,8 +9,6 @@ export const getUser = async (token: string, setUser: (data: any) => void) => {
 		},
 	});
 
-	console.log(data);
-
 	if (data.status === 200) {
 		setUser(data.data);
 		return true;
@@ -34,8 +32,6 @@ export const getRepoContributors = async (
 			},
 		}
 	);
-
-	console.log(data);
 
 	if (data.status === 200) {
 		setRepos(data.data);
@@ -97,8 +93,6 @@ export const getBranches = async (
 		}
 	);
 
-	console.log(data);
-
 	if (data.status === 200) {
 		setBranches(
 			data.data.length
@@ -127,7 +121,6 @@ export const getSha = async (token: string, repo: string, branch: string) => {
 	);
 
 	if (data.status === 200) {
-		console.log(data.data);
 		return data.data;
 	}
 
