@@ -245,6 +245,7 @@ const HomePage = () => {
 						disabled={!form.repo || !form.contributor}
 					>
 						Gerar Relatório de Commits
+						
 					</Button>
 
 					{commits[0]?.message ? (

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Screen } from '../../styles';
 import { Card, Text, Input } from '../../components';
+import { QuestionCircleOutlined } from '@ant-design/icons';
 
 const Login = () => {
 	return (
@@ -11,10 +12,15 @@ const Login = () => {
 					justify: 'start',
 				}}
 			>
-				<Text weight="bold" size="xlarge">
+				<Text weight="bold" size="xlarge" fontFamily="Noto Sans Display">
 					Gere uma lista dos seus commits
 				</Text>
-				<Input title="Token do Github" placeholder="abc-2a446fsa..." />
+				<Input
+					title="Token do Github"
+					placeholder="abc-2a446fsa..."
+					endIcon={<QuestionCircleOutlined />}
+					endIconMessage="Alguma mensagem"
+				/>
 				<Input
 					type="select"
 					title="Token do Github"

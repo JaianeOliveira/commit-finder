@@ -60,7 +60,7 @@ const BaseInput = ({
 					{title}
 				</Text>
 
-				<StyledDatePicker />
+				<StyledDatePicker format="DD/MM/YYYY" placeholder={placeholder} />
 			</DatePickerWrapper>
 		);
 	}
