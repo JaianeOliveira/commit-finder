@@ -48,7 +48,9 @@ export const StyledSelect = styled(Select)`
 	}
 
 	&.ant-select .ant-select-selector {
-		padding: 20px 20px 20px 20px;
+		padding: 10px 20px 14px 20px;
+		border-radius: 5px;
+
 		color: ${(props) => props.theme.gray_2};
 		height: 50px;
 	}
