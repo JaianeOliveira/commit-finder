@@ -8,19 +8,16 @@ type Props = {
 export default createGlobalStyle<Props>`
    html{
     font-size: 62.5%;
-    background-color: ${(props) => props.theme.background};
+    background-color: ${(props) => props.theme.white};
   }
-  @font-face {
-    font-family: 'Segoe UI Bold Italic';
-    src: url('./fonts/Segoe UI Bold Italic.ttf') format('ttf'),
-    }
-      
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif;
-  color: ${(props) => props.theme.textPrimary}
+  font-family: 'Noto Sans', 'Open Sans', 'Helvetica Neue', sans-serif;
+  color: ${(props) => props.theme.gray_1}
 }
 
 a {

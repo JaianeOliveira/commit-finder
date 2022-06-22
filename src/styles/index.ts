@@ -12,3 +12,15 @@ export const Centered = styled.div`
 	padding: 10%;
 	gap: 4vh;
 `;
+
+export const Screen = styled.div`
+	min-width: 100vw;
+	min-height: 100vh;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+
+	padding: 10%;
+`;

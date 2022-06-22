@@ -1,10 +1,11 @@
 const theme = {
-	primary: '#44444C',
-	secondary: '#8C8C8C',
-	textPrimary: '#FFFFFF',
-	textSecondary: '#D6D6D6',
-	background: '#0B0909',
+	black: '#0B0909',
+	gray_1: '#44444C',
+	gray_2: '#8C8C8C',
+	gray_3: '#EBEBEB',
+	white: '#FFFFFF',
 };
+
 export type ThemeType = typeof theme;
 
 export default theme;
