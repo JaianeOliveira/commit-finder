@@ -63,7 +63,7 @@ const StyledText = styled.p<{
 	}};
 
 	text-decoration: ${(props) => (props.underline ? 'underline' : 'none')};
-	color: ${(props) => (props.color ? props.color : props.theme.gray_1)};
+	color: ${(props) => (props.color ? props.color : props.theme.gray_2)};
 `;
 
 export default StyledText;

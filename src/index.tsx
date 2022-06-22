@@ -6,6 +6,7 @@ import { ThemeProvider } from 'styled-components';
 import theme from './styles/themes/default';
 import { Provider } from 'react-redux';
 import store from './shared/redux';
+import 'antd/dist/antd.css';
 
 const root = ReactDOM.createRoot(
 	document.getElementById('root') as HTMLElement

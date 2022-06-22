@@ -7,6 +7,7 @@ export const StyledCard = styled.div<{
 	justify?: 'center' | 'end' | 'start' | 'evenly' | 'around' | 'between';
 	gap?: number;
 	padding?: string;
+	direction?: 'row' | 'column';
 }>`
 	padding: ${(props) => (props.padding ? props.padding : '5vh')};
 
@@ -52,5 +53,16 @@ export const StyledCard = styled.div<{
 		}
 	}};
 
-	gap: ${(props) => (props.gap ? props.gap + 'px' : '5px')};
+	flex-direction: ${(props) => {
+		switch (props.direction) {
+			case 'row':
+				return 'row';
+			case 'column':
+				return 'column';
+			default:
+				return 'column';
+		}
+	}};
+
+	gap: ${(props) => (props.gap ? props.gap + 'px' : '10px')};
 `;
