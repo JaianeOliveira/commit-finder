@@ -17,7 +17,7 @@ export const InputWrapper = styled.div<{ width?: number | string }>`
 		display: inline;
 		width: auto;
 		padding: 0 10px;
-		z-index: 9999;
+		z-index: 3;
 	}
 `;
 
