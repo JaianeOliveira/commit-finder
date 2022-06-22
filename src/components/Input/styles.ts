@@ -17,28 +17,8 @@ export const InputWrapper = styled.div<{ width?: number | string }>`
 		display: inline;
 		width: auto;
 		padding: 0 10px;
-		z-index: 1;
+		z-index: 9999;
 	}
-`;
-
-export const SelectWrapper = styled(InputWrapper)<{ width?: number | string }>`
-	width: ${(props) =>
-		props.width
-			? typeof props.width === 'number'
-				? props.width + 'px'
-				: props.width
-			: 'auto'};
-`;
-
-export const DatePickerWrapper = styled(InputWrapper)<{
-	width?: number | string;
-}>`
-	width: ${(props) =>
-		props.width
-			? typeof props.width === 'number'
-				? props.width + 'px'
-				: props.width
-			: 'auto'};
 `;
 
 export const StyledInput = styled(Input)`
@@ -50,16 +30,16 @@ export const StyledInput = styled(Input)`
 	height: 50px;
 	color: ${(props) => props.theme.gray_2};
 
-	&:hover {
+	&.ant-input-affix-wrapper:hover {
 		box-shadow: 0px 1px 5px 1px rgba(0, 0, 0, 0.1);
 		border: 1px solid ${(props) => props.theme.gray_2};
 	}
-	&:focus {
+	&.ant-input-affix-wrapper:focus {
 		box-shadow: 0px 1px 5px 1px rgba(0, 0, 0, 0.1);
 		border: 1px solid ${(props) => props.theme.gray_2};
 	}
 
-	&::placeholder {
+	&.ant-input-affix-wrapper::placeholder {
 		font-weight: 300;
 	}
 `;
@@ -128,4 +108,24 @@ export const StyledDatePicker = styled(DatePicker)`
 	& .ant-picker-input input {
 		color: ${(props) => props.theme.gray_2} !important;
 	}
+`;
+
+export const DatePickerWrapper = styled(InputWrapper)<{
+	width?: number | string;
+}>`
+	width: ${(props) =>
+		props.width
+			? typeof props.width === 'number'
+				? props.width + 'px'
+				: props.width
+			: 'auto'};
+`;
+
+export const SelectWrapper = styled(InputWrapper)<{ width?: number | string }>`
+	width: ${(props) =>
+		props.width
+			? typeof props.width === 'number'
+				? props.width + 'px'
+				: props.width
+			: 'auto'};
 `;

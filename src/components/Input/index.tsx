@@ -1,27 +1,43 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import {
 	InputWrapper,
 	StyledInput,
 	StyledSelect,
 	StyledDatePicker,
-    DatePickerWrapper,
-    SelectWrapper,
+	DatePickerWrapper,
+	SelectWrapper,
 } from './styles';
 import { Text } from '..';
+
+import { Tooltip } from 'antd';
 
 type InputProps = {
 	type?: 'text' | 'select' | 'multiselect' | 'date' | 'email' | 'password';
 	placeholder?: string;
 	title: string;
+	startIcon?: ReactNode;
+	endIcon?: ReactNode;
+	endIconMessage?: string;
 };
-const BaseInput = ({ type = 'text', placeholder, title }: InputProps) => {
+const BaseInput = ({
+	type = 'text',
+	placeholder,
+	title,
+	startIcon,
+	endIcon,
+	endIconMessage,
+}: InputProps) => {
 	if (type === 'text') {
 		return (
 			<InputWrapper>
 				<Text weight="semibold" size="small" id="title">
 					{title}
 				</Text>
-				<StyledInput placeholder={placeholder} />
+				<StyledInput
+					prefix={startIcon}
+					suffix={<Tooltip title={endIconMessage}>{endIcon}</Tooltip>}
+					placeholder={placeholder}
+				/>
 			</InputWrapper>
 		);
 	}
