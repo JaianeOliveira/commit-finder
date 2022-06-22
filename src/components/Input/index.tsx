@@ -1,5 +1,12 @@
 import React from 'react';
-import { InputWrapper, StyledInput, StyledSelect } from './styles';
+import {
+	InputWrapper,
+	StyledInput,
+	StyledSelect,
+	StyledDatePicker,
+    DatePickerWrapper,
+    SelectWrapper,
+} from './styles';
 import { Text } from '..';
 
 type InputProps = {
@@ -21,12 +28,24 @@ const BaseInput = ({ type = 'text', placeholder, title }: InputProps) => {
 
 	if (type === 'select') {
 		return (
-			<InputWrapper>
+			<SelectWrapper>
 				<Text weight="semibold" size="small" id="title">
 					{title}
 				</Text>
 				<StyledSelect placeholder={placeholder} />
-			</InputWrapper>
+			</SelectWrapper>
+		);
+	}
+
+	if (type === 'date') {
+		return (
+			<DatePickerWrapper>
+				<Text weight="semibold" size="small" id="title">
+					{title}
+				</Text>
+
+				<StyledDatePicker />
+			</DatePickerWrapper>
 		);
 	}
 	return <div>Input</div>;

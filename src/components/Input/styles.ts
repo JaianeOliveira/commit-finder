@@ -1,8 +1,13 @@
 import styled from 'styled-components';
-import { Input, Select } from 'antd';
+import { Input, Select, DatePicker } from 'antd';
 
-export const InputWrapper = styled.div`
-	width: 100%;
+export const InputWrapper = styled.div<{ width?: number | string }>`
+	width: ${(props) =>
+		props.width
+			? typeof props.width === 'number'
+				? props.width + 'px'
+				: props.width
+			: '100%'};
 
 	#title {
 		position: relative;
@@ -14,6 +19,26 @@ export const InputWrapper = styled.div`
 		padding: 0 10px;
 		z-index: 1;
 	}
+`;
+
+export const SelectWrapper = styled(InputWrapper)<{ width?: number | string }>`
+	width: ${(props) =>
+		props.width
+			? typeof props.width === 'number'
+				? props.width + 'px'
+				: props.width
+			: 'auto'};
+`;
+
+export const DatePickerWrapper = styled(InputWrapper)<{
+	width?: number | string;
+}>`
+	width: ${(props) =>
+		props.width
+			? typeof props.width === 'number'
+				? props.width + 'px'
+				: props.width
+			: 'auto'};
 `;
 
 export const StyledInput = styled(Input)`
@@ -67,11 +92,40 @@ export const StyledSelect = styled(Select)`
 
 		& .ant-select-selector {
 			border: none !important;
-			box-shadow: 0px 1px 5px 1px rgba(0, 0, 0, 0.1) !important;
+			box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.1) !important;
 		}
 	}
 
 	&.ant-select .ant-select-selector::placeholder {
 		font-weight: 300;
+	}
+`;
+
+export const StyledDatePicker = styled(DatePicker)`
+	padding: 14px 20px 10px 20px;
+	border-radius: 5px;
+	border: 1px solid ${(props) => props.theme.gray_2};
+	box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.1);
+	height: 50px;
+	width: 100%;
+	color: ${(props) => props.theme.gray_2};
+
+	&:hover {
+		box-shadow: 0px 1px 5px 1px rgba(0, 0, 0, 0.1);
+		border: 1px solid ${(props) => props.theme.gray_2};
+	}
+	&:focus {
+		box-shadow: 0px 1px 5px 1px rgba(0, 0, 0, 0.1);
+		border: 1px solid ${(props) => props.theme.gray_2};
+	}
+
+	&::placeholder {
+		font-weight: 300;
+	}
+
+	& .ant-picker-suffix,
+	& .anticon-swap-right,
+	& .ant-picker-input input {
+		color: ${(props) => props.theme.gray_2} !important;
 	}
 `;

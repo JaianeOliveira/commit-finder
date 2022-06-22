@@ -20,6 +20,11 @@ const Login = () => {
 					title="Token do Github"
 					placeholder="abc-2a446fsa..."
 				/>
+				<Input
+					type="date"
+					title="Token do Github"
+					placeholder="abc-2a446fsa..."
+				/>
 			</Card>
 		</Screen>
 	);
