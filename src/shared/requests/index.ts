@@ -113,6 +113,48 @@ export const getBranches = async (
 	return false;
 };
 
+export const getCommitsInAllBranches = async (
+	branches: string[],
+	params: {
+		repo: string;
+		token: string;
+		contributor: string;
+		since: string;
+		until: string;
+		sha: string;
+	}
+) => {
+	const allCommits: { message: string; url: string }[] = [];
+	branches.map(async (item) => {
+		const data = await axios.get(
+			`https://api.github.com/repos/${params.repo}/commits`,
+			{
+				params: {
+					author: params.contributor,
+					since: params.since,
+					until: params.until,
+					sha: item,
+				},
+				headers: {
+					'Content-Type': 'application/json',
+					Accept: ' application/vnd.github.v3+json',
+					Authorization: `token ${params.token}`,
+				},
+			}
+		);
+		if (data.status === 200) {
+			allCommits.push(
+				...data.data.map((item: any) => ({
+					message: item.commit.message,
+					url: item.html_url,
+				}))
+			);
+		}
+	});
+
+	return allCommits;
+};
+
 export const getSha = async (token: string, repo: string, branch: string) => {
 	const data = await axios.get(
 		`https://api.github.com/repos/${repo}/branches/${branch}`,
