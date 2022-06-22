@@ -39,7 +39,7 @@ export const getRepoContributors = async (
 	);
 
 	if (data.status === 200) {
-		setRepos(data.data);
+		setRepos(data.data.map((item: any) => item.login));
 		return true;
 	}
 

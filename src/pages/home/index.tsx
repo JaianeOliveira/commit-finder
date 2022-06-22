@@ -40,7 +40,7 @@ const HomePage = () => {
 		profile: null,
 		user: null,
 	});
-	const [contributors, setContributors] = useState([]);
+	const [contributors, setContributors] = useState<string[]>([]);
 	const [branches, setBranches] = useState<Branches>([]);
 	const [commits, setCommits] = useState([]);
 	const [selectedBranch, setSelectedBranch] = useState('');
@@ -167,9 +167,9 @@ const HomePage = () => {
 						}}
 					>
 						{contributors.length &&
-							contributors.map((item: any) => (
-								<MenuItem key={item.login} value={item.login}>
-									{item.login}
+							contributors.map((item) => (
+								<MenuItem key={item} value={item}>
+									{item}
 								</MenuItem>
 							))}
 					</Select>
@@ -233,13 +233,19 @@ const HomePage = () => {
 		</>
 	);
 
-	const generateCommitsList = () => {};
+	const getContributorHandler = useCallback(async () => {
+		if (form.token && form.repo) {
+			const result = await getRepoContributors(
+				form.token,
+				form.repo,
+				setContributors
+			);
+		}
+	}, [form.repo, form.token]);
 
 	useEffect(() => {
-		form.token &&
-			form.repo &&
-			getRepoContributors(form.token, form.repo, setContributors);
-	}, [form.repo, form.token]);
+		getContributorHandler();
+	}, [getContributorHandler]);
 
 	useEffect(() => {
 		form.token && form.repo && getBranches(form.token, form.repo, setBranches);
