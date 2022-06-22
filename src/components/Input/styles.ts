@@ -42,28 +42,34 @@ export const StyledInput = styled(Input)`
 export const StyledSelect = styled(Select)`
 	&.ant-select {
 		border-radius: 5px;
-		border: 1px solid ${(props) => props.theme.gray_2};
-		box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.1);
+		border: 1px solid ${(props) => props.theme.gray_2} !important;
+		box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.1) !important;
 		width: 100%;
 	}
 
-	&.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+	&.ant-select .ant-select-selector {
 		padding: 20px 20px 20px 20px;
 		color: ${(props) => props.theme.gray_2};
 		height: 50px;
 	}
 
-	&.ant-select:not(.ant-select-customize-input) .ant-select-selector:hover {
-		box-shadow: 0px 1px 5px 1px rgba(0, 0, 0, 0.1);
-		border: 1px solid ${(props) => props.theme.gray_2};
-	}
-	&.ant-select:not(.ant-select-customize-input) .ant-select-selector:focus {
-		box-shadow: 0px 1px 5px 1px rgba(0, 0, 0, 0.1);
-		border: 1px solid ${(props) => props.theme.gray_2};
+	&:hover,
+	&.ant-select-focused,
+	&.ant-select-single,
+	&.ant-select-open {
+		&:not(.ant-select-disabled) {
+		}
+
+		& .ant-select-selection-item:hover {
+		}
+
+		& .ant-select-selector {
+			border: none !important;
+			box-shadow: 0px 1px 5px 1px rgba(0, 0, 0, 0.1) !important;
+		}
 	}
 
-	&.ant-select:not(.ant-select-customize-input)
-		.ant-select-selector::placeholder {
+	&.ant-select .ant-select-selector::placeholder {
 		font-weight: 300;
 	}
 `;
