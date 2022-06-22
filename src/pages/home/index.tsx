@@ -11,7 +11,6 @@ import {
 	getRepoContributors,
 	getCommits,
 	getBranches,
-	getSha,
 	getCommitsInAllBranches,
 } from '../../shared/requests';
 import { TextField } from '@mui/material';
@@ -108,19 +107,13 @@ const HomePage = () => {
 	};
 
 	const submitHandler = async () => {
-		if (selectedBranch === 'all') {
-			const allBranches = branches.map((item) => item.name);
-			const data = await getCommitsInAllBranches(allBranches, form);
-			if (data) {
-				setCommits(data);
-			}
-		} else {
-			const data = await getCommits(form);
-
-			if (data) {
-				setCommits(data);
-			}
-		}
+		const allBranches = branches.map((item) => item.name);
+		setCommits([]);
+		const data =
+			selectedBranch === 'all'
+				? await getCommitsInAllBranches(allBranches, form, setCommits)
+				: await getCommits(form);
+		selectedBranch !== 'all' && setCommits(data);
 
 		console.log(commits);
 	};
@@ -147,133 +140,130 @@ const HomePage = () => {
 		defaultValuesHandler();
 	}, [defaultValuesHandler, form.repo]);
 
-	const contentWithoutUser = (
-		<>
-			<Description>
-				Para poder ter acesso a todos os seus repositórios do github eu preciso
-				que você me diga seu token de acesso. Se você são sabe qual é, pode dar
-				uma olhada{' '}
-				<a href="https://docs.github.com/pt/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token">
-					aqui
-				</a>
-				.
-			</Description>
-			<Input
-				label="Github Token"
-				variant="outlined"
-				onChangeCapture={inputChangeHandler}
-				value={form.token}
-			/>
-			<Button
-				variant="contained"
-				onClick={getUserHandler}
-				disabled={!form.token}
-			>
-				Enviar
-			</Button>
-		</>
-	);
-
-	const contentWithUser = (
-		<>
-			<Row>
-				<FormControl>
-					<Input
-						label="Link do repositório"
-						variant="outlined"
-						placeholder="usuario/repositorio"
-						value={form.repo}
-						onChange={repoChangeHandler}
-					/>
-				</FormControl>
-				<FormControl>
-					<InputLabel>Contribuidor</InputLabel>
-					<Select
-						fullWidth
-						id="contributor"
-						value={form.contributor}
-						defaultValue={user.user}
-						label="Contribuidor"
-						onChange={contributorChangeHandler}
-						disabled={!contributors.length}
-						sx={{
-							width: 150,
-						}}
-					>
-						{contributors.length &&
-							contributors.map((item) => (
-								<MenuItem key={item} value={item}>
-									{item}
-								</MenuItem>
-							))}
-					</Select>
-				</FormControl>
-				<FormControl>
-					<InputLabel>Branch</InputLabel>
-					<Select
-						fullWidth
-						id="branch"
-						value={selectedBranch}
-						label="Branch"
-						placeholder="Branch"
-						onChange={branchesHandler}
-						disabled={!branches.length}
-						sx={{
-							width: 150,
-						}}
-					>
-						<MenuItem key={0} value="all">
-							Todas
-						</MenuItem>
-						{branches.length &&
-							branches.map((item) => (
-								<MenuItem key={item.name} value={item.name}>
-									{item.name}
-								</MenuItem>
-							))}
-					</Select>
-				</FormControl>
-				<FormControl>
-					<LocalizationProvider dateAdapter={AdapterDateFns}>
-						<DatePicker
-							label="Date desktop"
-							value={date}
-							onChange={dateChangeHandler}
-							renderInput={(params: any) => <TextField {...params} />}
-						/>
-					</LocalizationProvider>
-				</FormControl>
-			</Row>
-			<Button
-				variant="contained"
-				onClick={submitHandler}
-				disabled={!form.repo || !form.contributor}
-			>
-				Gerar Relatório de Commits
-			</Button>
-
-			{commits.length ? (
-				<TextField
-					fullWidth
-					label="Relatório de commits"
-					multiline
-					placeholder="Nada aqui ainda"
-					value={commits.map(
-						(commit: any) => `${commit.message}\n${commit.url}\n\n`
-					)}
-				/>
-			) : (
-				<Description>
-					Você ainda não gerou um relatório ou não há commits para mostrar
-				</Description>
-			)}
-		</>
-	);
-
 	return (
 		<Centered>
 			<Title>Oi {user.token ? user.name : 'pessoa'}</Title>
-			{user.token ? contentWithUser : contentWithoutUser}
+			{!user.token ? (
+				<>
+					<Description>
+						Para poder ter acesso a todos os seus repositórios do github eu
+						preciso que você me diga seu token de acesso. Se você são sabe qual
+						é, pode dar uma olhada{' '}
+						<a href="https://docs.github.com/pt/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token">
+							aqui
+						</a>
+						.
+					</Description>
+					<Input
+						label="Github Token"
+						variant="outlined"
+						onChangeCapture={inputChangeHandler}
+						value={form.token}
+					/>
+					<Button
+						variant="contained"
+						onClick={getUserHandler}
+						disabled={!form.token}
+					>
+						Enviar
+					</Button>
+				</>
+			) : (
+				<>
+					<Row>
+						<FormControl>
+							<Input
+								label="Link do repositório"
+								variant="outlined"
+								placeholder="usuario/repositorio"
+								value={form.repo}
+								onChange={repoChangeHandler}
+							/>
+						</FormControl>
+						<FormControl>
+							<InputLabel>Contribuidor</InputLabel>
+							<Select
+								fullWidth
+								id="contributor"
+								value={form.contributor}
+								defaultValue={user.user}
+								label="Contribuidor"
+								onChange={contributorChangeHandler}
+								disabled={!contributors.length}
+								sx={{
+									width: 150,
+								}}
+							>
+								{contributors.length &&
+									contributors.map((item) => (
+										<MenuItem key={item} value={item}>
+											{item}
+										</MenuItem>
+									))}
+							</Select>
+						</FormControl>
+						<FormControl>
+							<InputLabel>Branch</InputLabel>
+							<Select
+								fullWidth
+								id="branch"
+								value={selectedBranch}
+								label="Branch"
+								placeholder="Branch"
+								onChange={branchesHandler}
+								disabled={!branches.length}
+								sx={{
+									width: 150,
+								}}
+							>
+								<MenuItem key={0} value="all">
+									Todas
+								</MenuItem>
+								{branches.length &&
+									branches.map((item) => (
+										<MenuItem key={item.name} value={item.name}>
+											{item.name}
+										</MenuItem>
+									))}
+							</Select>
+						</FormControl>
+						<FormControl>
+							<LocalizationProvider dateAdapter={AdapterDateFns}>
+								<DatePicker
+									label="Date desktop"
+									value={date}
+									onChange={dateChangeHandler}
+									renderInput={(params: any) => <TextField {...params} />}
+								/>
+							</LocalizationProvider>
+						</FormControl>
+					</Row>
+					<Button
+						variant="contained"
+						onClick={submitHandler}
+						disabled={!form.repo || !form.contributor}
+					>
+						Gerar Relatório de Commits
+					</Button>
+
+					{commits[0]?.message ? (
+						<TextField
+							fullWidth
+							label="Relatório de commits"
+							multiline
+							placeholder="Nada aqui ainda"
+							value={commits.map(
+								(commit: { message: string; url: string }) =>
+									`${commit.message}\n${commit.url}\n\n`
+							)}
+						/>
+					) : (
+						<Description>
+							Você ainda não gerou um relatório ou não há commits para mostrar
+						</Description>
+					)}
+				</>
+			)}
 		</Centered>
 	);
 };
