@@ -12,7 +12,7 @@ const Login = () => {
 					justify: 'start',
 				}}
 			>
-				<Text weight="bold" size="xlarge" fontFamily="Noto Sans Display">
+				<Text weight="bold" size="xlarge" fontDisplay>
 					Gere uma lista dos seus commits
 				</Text>
 				<Input

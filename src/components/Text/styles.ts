@@ -15,10 +15,10 @@ const StyledText = styled.p<{
 		| 'extrabold';
 	underline?: boolean;
 	color?: string;
-	fontFamily?: 'Noto Sans' | 'Noto Sans Display';
+	fontDisplay?: boolean;
 }>`
-	${(props) => props.fontFamily && `font-family: ${props.fontFamily}`}
-
+	font-family: ${(props) =>
+		props.fontDisplay ? 'Noto Sans Display' : 'Noto Sans'};
 	font-size: ${({ size }) => {
 		if (typeof size === 'number') return size + 'px';
 		switch (size) {
