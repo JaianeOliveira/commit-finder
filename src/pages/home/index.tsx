@@ -12,6 +12,7 @@ import {
 	getCommits,
 	getBranches,
 	getSha,
+	getCommitsInAllBranches,
 } from '../../shared/requests';
 import { TextField } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -42,8 +43,10 @@ const HomePage = () => {
 	});
 	const [contributors, setContributors] = useState<string[]>([]);
 	const [branches, setBranches] = useState<Branches>([]);
-	const [commits, setCommits] = useState([]);
-	const [selectedBranch, setSelectedBranch] = useState('');
+	const [commits, setCommits] = useState<{ message: string; url: string }[]>(
+		[]
+	);
+	const [selectedBranch, setSelectedBranch] = useState('all');
 	const [date, setDate] = useState();
 	const [form, setForm] = useState({
 		repo: '',
@@ -105,14 +108,45 @@ const HomePage = () => {
 	};
 
 	const submitHandler = async () => {
-		const data = await getCommits(form);
+		if (selectedBranch === 'all') {
+			const allBranches = branches.map((item) => item.name);
+			const data = await getCommitsInAllBranches(allBranches, form);
+			if (data) {
+				setCommits(data);
+			}
+		} else {
+			const data = await getCommits(form);
 
-		if (data) {
-			setCommits(data);
+			if (data) {
+				setCommits(data);
+			}
 		}
 
 		console.log(commits);
 	};
+
+	const getContributorHandler = useCallback(async () => {
+		if (form.token && form.repo) {
+			const result = await getRepoContributors(
+				form.token,
+				form.repo,
+				setContributors
+			);
+		}
+	}, [form.repo, form.token]);
+
+	useEffect(() => {
+		getContributorHandler();
+	}, [getContributorHandler]);
+
+	useEffect(() => {
+		form.token && form.repo && getBranches(form.token, form.repo, setBranches);
+	}, [form.repo, form.token]);
+
+	useEffect(() => {
+		defaultValuesHandler();
+	}, [defaultValuesHandler, form.repo]);
+
 	const contentWithoutUser = (
 		<>
 			<Description>
@@ -188,6 +222,9 @@ const HomePage = () => {
 							width: 150,
 						}}
 					>
+						<MenuItem key={0} value="all">
+							Todas
+						</MenuItem>
 						{branches.length &&
 							branches.map((item) => (
 								<MenuItem key={item.name} value={item.name}>
@@ -232,28 +269,6 @@ const HomePage = () => {
 			)}
 		</>
 	);
-
-	const getContributorHandler = useCallback(async () => {
-		if (form.token && form.repo) {
-			const result = await getRepoContributors(
-				form.token,
-				form.repo,
-				setContributors
-			);
-		}
-	}, [form.repo, form.token]);
-
-	useEffect(() => {
-		getContributorHandler();
-	}, [getContributorHandler]);
-
-	useEffect(() => {
-		form.token && form.repo && getBranches(form.token, form.repo, setBranches);
-	}, [form.repo, form.token]);
-
-	useEffect(() => {
-		defaultValuesHandler();
-	}, [defaultValuesHandler, form.repo]);
 
 	return (
 		<Centered>
