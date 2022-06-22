@@ -19,6 +19,7 @@ import { LocalizationProvider } from '@mui/lab';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { useAppDispatch } from '../../hooks/useRedux';
 import { setUser as setUserDispatch } from '../../shared/redux/user';
+import ptbr from 'date-fns/locale/pt-BR';
 
 type Branch = {
 	name: string;
@@ -228,9 +229,9 @@ const HomePage = () => {
 							</Select>
 						</FormControl>
 						<FormControl>
-							<LocalizationProvider dateAdapter={AdapterDateFns}>
+							<LocalizationProvider dateAdapter={AdapterDateFns} locale={ptbr}>
 								<DatePicker
-									label="Date desktop"
+									label="Data"
 									value={date}
 									onChange={dateChangeHandler}
 									renderInput={(params: any) => <TextField {...params} />}
