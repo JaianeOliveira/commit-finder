@@ -1,6 +1,6 @@
 import React from 'react';
 import { Screen } from '../../styles';
-import { Card, Text, Input } from '../../components';
+import { Card, Text, Input, Button } from '../../components';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 
 const Login = () => {
@@ -31,6 +31,11 @@ const Login = () => {
 					title="Token do Github"
 					placeholder="abc-2a446fsa..."
 				/>
+				<Button buttonColor="gray" buttonType="flat">
+					Botão
+				</Button>
+				<Button>Botão</Button>
+				<Button buttonColor="white">Botão</Button>
 			</Card>
 		</Screen>
 	);
