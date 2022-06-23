@@ -1,8 +1,8 @@
 import React from 'react';
 import { Screen } from '../../styles';
-import { Card, Text, Input, Button } from '../../components';
+import { Card, Text, Input, Button, Row } from '../../components';
 import { QuestionCircleOutlined } from '@ant-design/icons';
-
+import { IoLogoGithub } from 'react-icons/io';
 const Login = () => {
 	return (
 		<Screen>
@@ -12,7 +12,7 @@ const Login = () => {
 					justify: 'start',
 				}}
 			>
-				<Text weight="bold" size="xlarge" fontDisplay>
+				<Text weight="bold" size="xlarge" fontDisplay color="gray_1">
 					Gere uma lista dos seus commits
 				</Text>
 				<Input
@@ -21,21 +21,13 @@ const Login = () => {
 					endIcon={<QuestionCircleOutlined />}
 					endIconMessage="Alguma mensagem"
 				/>
-				<Input
-					type="select"
-					title="Token do Github"
-					placeholder="abc-2a446fsa..."
-				/>
-				<Input
-					type="date"
-					title="Token do Github"
-					placeholder="abc-2a446fsa..."
-				/>
-				<Button buttonColor="gray" buttonType="flat">
-					Botão
-				</Button>
-				<Button>Botão</Button>
-				<Button buttonColor="white">Botão</Button>
+				<Row align="between">
+					<Button disabled>
+						<IoLogoGithub size={18} color="#FFFFFF" />
+						Entrar com o github
+					</Button>
+					<Button buttonColor="white">Entrar</Button>
+				</Row>
 			</Card>
 		</Screen>
 	);

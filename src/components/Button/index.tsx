@@ -9,6 +9,7 @@ type ButtonProps = {
 	icon?: React.ReactNode;
 	onClick?: () => void;
 	submit?: boolean;
+	disabled?: boolean;
 };
 
 const Button = ({
@@ -18,10 +19,12 @@ const Button = ({
 	color,
 	icon,
 	submit,
+	disabled,
 	onClick,
 }: ButtonProps) => {
 	return (
 		<StyledButton
+			disabled={disabled}
 			type={submit ? 'submit' : 'button'}
 			buttonType={buttonType}
 			buttonColor={buttonColor}

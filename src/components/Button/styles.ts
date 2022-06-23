@@ -4,6 +4,7 @@ export const StyledButton = styled.button<{
 	buttonType?: 'normal' | 'flat';
 	buttonColor?: string | 'black' | 'gray' | 'white';
 	color?: string;
+	disabled?: boolean;
 }>`
 	display: flex;
 	align-items: center;
@@ -57,4 +58,12 @@ export const StyledButton = styled.button<{
 				return props.theme.black;
 		}
 	}};
+
+	cursor: ${(props) => (props.disabled ? 'no-drop' : 'pointer')};
+
+	&:hover {
+		box-shadow: 0px 1px
+			${(props) => (props.buttonColor === 'white' ? '8px' : '10px')} 1px
+			rgba(0, 0, 0, 0.25);
+	}
 `;

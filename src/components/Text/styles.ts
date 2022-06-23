@@ -66,7 +66,25 @@ const StyledText = styled.p<{
 	}};
 
 	text-decoration: ${(props) => (props.underline ? 'underline' : 'none')};
-	color: ${(props) => (props.color ? props.color : props.theme.gray_2)};
+	color: ${(props) => {
+		if (!!props.color && props.color.includes('#')) {
+			return props.color;
+		}
+		switch (props.color) {
+			case 'gray_1':
+				return props.theme.gray_1;
+			case 'gray_2':
+				return props.theme.gray_2;
+			case 'gray_3':
+				return props.theme.gray_3;
+			case 'black':
+				return props.theme.black;
+			case 'white':
+				return props.theme.white;
+			default:
+				return props.theme.gray_2;
+		}
+	}};
 `;
 
 export default StyledText;
