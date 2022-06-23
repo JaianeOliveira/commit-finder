@@ -13,7 +13,7 @@ const Login = () => {
 				}}
 			>
 				<Text weight="bold" size="xlarge" fontDisplay color="gray_1">
-					Gere uma lista dos seus commits
+					Commit Finder
 				</Text>
 				<Input
 					title="Token do Github"
