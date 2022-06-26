@@ -7,7 +7,8 @@ import Find from './pages/find';
 
 const App = () => {
 	const token = useAppSelector((store) => store.user.token);
-	return <>{!token ? <Find /> : <Login />}</>;
+	console.log(token);
+	return <>{token ? <Find /> : <Login />}</>;
 };
 
 export default App;

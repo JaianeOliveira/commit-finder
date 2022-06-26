@@ -42,6 +42,7 @@ const BaseInput = ({
 					suffix={<Tooltip title={endIconMessage}>{endIcon}</Tooltip>}
 					placeholder={placeholder}
 					value={value}
+					onChange={onChange}
 				/>
 			</InputWrapper>
 		);
@@ -53,7 +54,11 @@ const BaseInput = ({
 				<Text weight="semibold" size="small" id="title">
 					{title}
 				</Text>
-				<StyledSelect placeholder={placeholder} value={value} />
+				<StyledSelect
+					placeholder={placeholder}
+					value={value}
+					onChange={onChange}
+				/>
 			</SelectWrapper>
 		);
 	}

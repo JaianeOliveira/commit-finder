@@ -10,6 +10,7 @@ import {
 	Divider,
 	CommitItem,
 } from '../../components';
+import { useAppSelector } from '../../hooks/useRedux';
 import { Screen } from '../../styles';
 
 type FormType = {
@@ -21,6 +22,8 @@ type FormType = {
 };
 
 const Find = () => {
+	const user = useAppSelector((store) => store.user);
+
 	const [form, setForm] = useState<FormType>({
 		repo: '',
 		contributor: '',
@@ -55,9 +58,9 @@ const Find = () => {
 				}}
 			>
 				<Text size="xlarge" fontDisplay color="gray_1" weight="bold">
-					Olá Jaiane Oliveira
+					Olá {user.name}
 				</Text>
-				<Text>@JaianeOliveira</Text>
+				<Text>@{user.user}</Text>
 
 				<Row>
 					<Input
