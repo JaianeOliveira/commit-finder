@@ -1,7 +1,6 @@
 import React from 'react';
 import { useAppSelector } from './hooks/useRedux';
 
-import Home from './pages/home';
 import Login from './pages/login';
 import Find from './pages/find';
 
