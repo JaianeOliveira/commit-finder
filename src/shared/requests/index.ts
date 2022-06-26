@@ -14,7 +14,7 @@ export const getUser = async (token: string, setUser: (data: any) => void) => {
 			name: data.data.name,
 			token: token,
 			profile: data.data.html_url,
-			user: data.data.user,
+			user: data.data.login,
 		});
 		return true;
 	}
@@ -46,14 +46,16 @@ export const getRepoContributors = async (
 	return false;
 };
 
-export const getCommits = async (params: {
-	repo: string;
-	token: string;
-	contributor: string;
-	since: string;
-	until: string;
-	sha: string;
-}) => {
+export const getCommits = async (
+	params: {
+		repo: string;
+		contributor: string;
+		since: string;
+		until: string;
+		sha: string;
+	},
+	token: string
+) => {
 	const data = await axios.get(
 		`https://api.github.com/repos/${params.repo}/commits`,
 		{
@@ -66,11 +68,12 @@ export const getCommits = async (params: {
 			headers: {
 				'Content-Type': 'application/json',
 				Accept: ' application/vnd.github.v3+json',
-				Authorization: `token ${params.token}`,
+				Authorization: `token ${token}`,
 			},
 		}
 	);
 	if (data.status === 200) {
+		console.log(data);
 		return data.data.length
 			? data.data.map((commit: any) => ({
 					message: commit.commit.message,
@@ -117,13 +120,13 @@ export const getCommitsInAllBranches = async (
 	branches: string[],
 	params: {
 		repo: string;
-		token: string;
 		contributor: string;
 		since: string;
 		until: string;
 		sha: string;
 	},
-	setCommits: (data: any) => void
+	setCommits: (data: any) => void,
+	token: string
 ) => {
 	branches.map(async (item) => {
 		const data = await axios.get(
@@ -138,11 +141,12 @@ export const getCommitsInAllBranches = async (
 				headers: {
 					'Content-Type': 'application/json',
 					Accept: ' application/vnd.github.v3+json',
-					Authorization: `token ${params.token}`,
+					Authorization: `token ${token}`,
 				},
 			}
 		);
 		if (data.status === 200) {
+			console.log(data);
 			setCommits((currentData: { message: string; url: string }[]) => [
 				...currentData,
 				...data.data.map((item: any) => ({

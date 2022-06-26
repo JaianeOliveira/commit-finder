@@ -8,10 +8,11 @@ export const StyledCard = styled.div<{
 	gap?: number;
 	padding?: string;
 	direction?: 'row' | 'column';
+	hStretch?: boolean;
 }>`
 	padding: ${(props) => (props.padding ? props.padding : '5vh')};
 
-	min-height: 40vh;
+	min-height: ${(props) => (props.hStretch ? '80vh' : '40vh')};
 	min-width: 30vw;
 
 	border: 1px solid ${(props) => props.theme.gray_1};

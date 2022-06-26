@@ -1,4 +1,4 @@
-import { DatePickerProps } from 'antd';
+import { DatePickerProps, Select } from 'antd';
 import React, { useCallback, useEffect, useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import {
@@ -9,17 +9,31 @@ import {
 	Text,
 	Divider,
 	CommitItem,
+	UserData,
 } from '../../components';
 import { useAppSelector } from '../../hooks/useRedux';
+import {
+	getBranches,
+	getCommits,
+	getCommitsInAllBranches,
+	getRepoContributors,
+} from '../../shared/requests';
 import { Screen } from '../../styles';
 
 type FormType = {
 	repo: string;
 	contributor: string;
-	branch: string;
+	sha: string;
 	since: string;
 	until: string;
 };
+
+type Branch = {
+	name: string;
+	sha: string;
+};
+
+type Branches = Branch[] | [];
 
 const Find = () => {
 	const user = useAppSelector((store) => store.user);
@@ -27,11 +41,16 @@ const Find = () => {
 	const [form, setForm] = useState<FormType>({
 		repo: '',
 		contributor: '',
-		branch: 'all',
+		sha: 'all',
 		since: '',
 		until: '',
 	});
 	const [date, setDate] = useState<any>();
+	const [branches, setBranches] = useState<Branches>([]);
+	const [contributors, setContributors] = useState<string[]>([]);
+	const [commits, setCommits] = useState<{ message: string; url: string }[]>(
+		[]
+	);
 
 	const dateFormat = (date: string) => {
 		const splitDate = date.split('/');
@@ -47,6 +66,42 @@ const Find = () => {
 		dateFormat(stringData);
 	};
 
+	const repoHandler = (e: any) => {
+		setForm((currentData) => ({ ...currentData, repo: e.target.value }));
+	};
+
+	const getContributorHandler = useCallback(async () => {
+		if (user.token && form.repo) {
+			await getRepoContributors(user.token, form.repo, setContributors);
+		}
+	}, [form.repo, user.token]);
+
+	const submitHandler = async () => {
+		if (user.token) {
+			const allBranches = branches.map((item) => item.name);
+			setCommits([]);
+			const data =
+				form.sha === 'all'
+					? await getCommitsInAllBranches(
+							allBranches,
+							form,
+							setCommits,
+							user.token
+					  )
+					: await getCommits(form, user.token);
+			form.sha !== 'all' && setCommits(data);
+		}
+	};
+	console.log(commits);
+
+	useEffect(() => {
+		getContributorHandler();
+	}, [getContributorHandler]);
+
+	useEffect(() => {
+		user.token && form.repo && getBranches(user.token, form.repo, setBranches);
+	}, [form.repo, user.token]);
+
 	return (
 		<Screen>
 			<Card
@@ -55,21 +110,49 @@ const Find = () => {
 					height: '100%',
 					align: 'start',
 					justify: 'start',
+					hStretch: true,
 				}}
 			>
-				<Text size="xlarge" fontDisplay color="gray_1" weight="bold">
-					Olá {user.name}
-				</Text>
-				<Text>@{user.user}</Text>
-
+				{user.token && user.name && user.profile && user.user && (
+					<UserData
+						avatarUrl={`https://github.com/${user.user}.png`}
+						name={user.name}
+						user={user.user}
+					/>
+				)}
 				<Row>
 					<Input
 						type="text"
 						placeholder="username/repository"
 						title="Repositório"
+						onChange={repoHandler}
+						value={form.repo}
 					/>
-					<Input type="select" title="Contribuidor" />
-					<Input type="select" title="Branch" />
+					<Input
+						type="select"
+						title="Contribuidor"
+						onChange={(e) =>
+							setForm((currentData) => ({ ...currentData, contributor: e }))
+						}
+						value={form.contributor}
+					>
+						{contributors?.map((contributor) => (
+							<Select.Option value={contributor}>{contributor}</Select.Option>
+						))}
+					</Input>
+					<Input
+						type="select"
+						title="Branch"
+						value={form.sha}
+						onChange={(e) =>
+							setForm((currentValue) => ({ ...currentValue, sha: e }))
+						}
+					>
+						<Select.Option value="all">Todas</Select.Option>
+						{branches?.map((branch) => (
+							<Select.Option value={branch.name}>{branch.name}</Select.Option>
+						))}
+					</Input>
 					<Input
 						type="date"
 						title="Data"
@@ -78,7 +161,7 @@ const Find = () => {
 					/>
 				</Row>
 				<Row align="end">
-					<Button buttonType="flat" buttonColor="gray">
+					<Button buttonType="flat" buttonColor="gray" onClick={submitHandler}>
 						Buscar
 					</Button>
 				</Row>
@@ -94,11 +177,9 @@ const Find = () => {
 					Copiar tudo
 				</Button>
 				<Divider />
-				<CommitItem
-					url="https://github.com/lubysoftware/LabLuby_APP/commit/d18220c4aa821d74f67afa0ee3f501f37bb88a2e"
-					message="refactor: validation rules"
-					description="algo blablablablabla"
-				/>
+				{commits?.map((commit) => (
+					<CommitItem message={commit.message} url={commit.url} />
+				))}
 			</Card>
 			<ToastContainer
 				position="top-right"

@@ -47,6 +47,7 @@ const Login = () => {
 					endIcon={<QuestionCircleOutlined />}
 					endIconMessage="Alguma mensagem"
 					onChange={(e) => setToken(e.target.value)}
+					value={token}
 				/>
 				<Row align="between">
 					<Button disabled>

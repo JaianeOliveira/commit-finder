@@ -10,6 +10,7 @@ type CardProps = {
 		justify?: 'center' | 'end' | 'start' | 'evenly' | 'around' | 'between';
 		gap?: number;
 		padding?: string;
+		hStretch?: boolean;
 	};
 };
 
@@ -22,6 +23,7 @@ const Card = ({ children, styles }: CardProps) => {
 			justify={styles?.justify}
 			gap={styles?.gap}
 			padding={styles?.padding}
+			hStretch={styles?.hStretch}
 		>
 			{children}
 		</StyledCard>

@@ -20,6 +20,7 @@ type InputProps = {
 	endIconMessage?: string;
 	value?: any;
 	onChange?: (...args: any) => void;
+	children?: ReactNode | ReactNode[];
 };
 const BaseInput = ({
 	type = 'text',
@@ -30,6 +31,7 @@ const BaseInput = ({
 	endIconMessage,
 	value,
 	onChange,
+	children,
 }: InputProps) => {
 	if (type === 'text') {
 		return (
@@ -58,7 +60,9 @@ const BaseInput = ({
 					placeholder={placeholder}
 					value={value}
 					onChange={onChange}
-				/>
+				>
+					{children}
+				</StyledSelect>
 			</SelectWrapper>
 		);
 	}
