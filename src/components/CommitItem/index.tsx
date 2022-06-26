@@ -1,6 +1,6 @@
 import { CopyOutlined, LinkOutlined } from '@ant-design/icons';
 import { Tooltip } from 'antd';
-import React, { useState } from 'react';
+import React from 'react';
 import { toast } from 'react-toastify';
 import { Container } from './styles';
 

@@ -18,6 +18,8 @@ type InputProps = {
 	startIcon?: ReactNode;
 	endIcon?: ReactNode;
 	endIconMessage?: string;
+	value?: any;
+	onChange?: (...args: any) => void;
 };
 const BaseInput = ({
 	type = 'text',
@@ -26,6 +28,8 @@ const BaseInput = ({
 	startIcon,
 	endIcon,
 	endIconMessage,
+	value,
+	onChange,
 }: InputProps) => {
 	if (type === 'text') {
 		return (
@@ -37,6 +41,7 @@ const BaseInput = ({
 					prefix={startIcon}
 					suffix={<Tooltip title={endIconMessage}>{endIcon}</Tooltip>}
 					placeholder={placeholder}
+					value={value}
 				/>
 			</InputWrapper>
 		);
@@ -48,7 +53,7 @@ const BaseInput = ({
 				<Text weight="semibold" size="small" id="title">
 					{title}
 				</Text>
-				<StyledSelect placeholder={placeholder} />
+				<StyledSelect placeholder={placeholder} value={value} />
 			</SelectWrapper>
 		);
 	}
@@ -60,7 +65,12 @@ const BaseInput = ({
 					{title}
 				</Text>
 
-				<StyledDatePicker format="DD/MM/YYYY" placeholder={placeholder} />
+				<StyledDatePicker
+					format="DD/MM/YYYY"
+					placeholder={placeholder}
+					value={value}
+					onChange={onChange}
+				/>
 			</DatePickerWrapper>
 		);
 	}
