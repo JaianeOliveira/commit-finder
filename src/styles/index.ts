@@ -22,5 +22,5 @@ export const Screen = styled.div`
 	align-items: center;
 	justify-content: center;
 
-	padding: 10%;
+	padding: 10vh 10vw;
 `;

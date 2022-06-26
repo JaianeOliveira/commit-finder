@@ -119,6 +119,7 @@ export const DatePickerWrapper = styled(InputWrapper)<{
 				? props.width + 'px'
 				: props.width
 			: 'auto'};
+	min-width: 150px;
 `;
 
 export const SelectWrapper = styled(InputWrapper)<{ width?: number | string }>`
@@ -128,4 +129,5 @@ export const SelectWrapper = styled(InputWrapper)<{ width?: number | string }>`
 				? props.width + 'px'
 				: props.width
 			: 'auto'};
+	min-width: 150px;
 `;

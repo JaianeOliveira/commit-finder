@@ -3,7 +3,7 @@ import { StyledButton } from './styles';
 
 type ButtonProps = {
 	children: React.ReactNode;
-	buttonType?: 'normal' | 'flat';
+	buttonType?: 'normal' | 'flat' | 'inline';
 	buttonColor?: string | 'black' | 'gray' | 'white';
 	color?: string;
 	icon?: React.ReactNode;

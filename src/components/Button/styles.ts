@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const StyledButton = styled.button<{
-	buttonType?: 'normal' | 'flat';
+	buttonType?: 'normal' | 'flat' | 'inline';
 	buttonColor?: string | 'black' | 'gray' | 'white';
 	color?: string;
 	disabled?: boolean;
@@ -10,11 +10,15 @@ export const StyledButton = styled.button<{
 	align-items: center;
 	justify-content: center;
 
-	padding: 10px 20px;
+	padding: ${(props) =>
+		props.buttonType === 'inline' ? '5px 0' : '10px 20px'};
 	gap: 10px;
 
 	border: none;
-	box-shadow: 0px 1px 5px 1px rgba(0, 0, 0, 0.25);
+	box-shadow: ${(props) =>
+		props.buttonType === 'inline'
+			? 'none'
+			: '0px 1px 5px 1px rgba(0, 0, 0, 0.25)'};
 	border-radius: 5px;
 
 	min-width: 110px;
@@ -24,7 +28,9 @@ export const StyledButton = styled.button<{
 			case 'normal':
 				return '50px';
 			case 'flat':
-				return '43px';
+				return '40px';
+			case 'inline':
+				return '30px';
 			default:
 				return '50px';
 		}
@@ -32,6 +38,7 @@ export const StyledButton = styled.button<{
 
 	color: ${(props) => {
 		if (props.color) return props.color;
+		if (props.buttonType === 'inline') return props.theme.gray_2;
 		switch (props.buttonColor) {
 			case 'black':
 				return props.theme.white;
@@ -47,6 +54,7 @@ export const StyledButton = styled.button<{
 	font-weight: 600;
 
 	background-color: ${(props) => {
+		if (props.buttonType === 'inline') return 'transparent';
 		switch (props.buttonColor) {
 			case 'black':
 				return props.theme.black;
@@ -62,8 +70,11 @@ export const StyledButton = styled.button<{
 	cursor: ${(props) => (props.disabled ? 'no-drop' : 'pointer')};
 
 	&:hover {
-		box-shadow: 0px 1px
-			${(props) => (props.buttonColor === 'white' ? '8px' : '10px')} 1px
-			rgba(0, 0, 0, 0.25);
+		box-shadow: ${(props) =>
+			props.buttonType === 'inline'
+				? 'none'
+				: `0px 1px ${
+						props.buttonColor === 'white' ? '8px' : '10px'
+				  } 1px rgba(0,0,0,0.25)`};
 	}
 `;
