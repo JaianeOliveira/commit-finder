@@ -1,6 +1,7 @@
 import { CopyOutlined, LinkOutlined } from '@ant-design/icons';
 import { Tooltip } from 'antd';
-import React from 'react';
+import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 import { Container } from './styles';
 
 type CommitItemProps = {
@@ -10,10 +11,18 @@ type CommitItemProps = {
 };
 
 const CommitItem = (props: CommitItemProps) => {
-	const commit = `${props.message}\n${
-		props.description ? props.description + '\n' : ''
-	} ${props.url}`;
+	const commit = `${props.message}${
+		props.description ? '\n' + props.description + '\n' : '\n'
+	}${props.url}`;
 	const url = props.url;
+
+	const copyHandler = (value: string) => {
+		navigator.clipboard.writeText(value);
+		toast.success('Copiado!', {
+			autoClose: 1300,
+			hideProgressBar: true,
+		});
+	};
 
 	return (
 		<Container>
@@ -23,12 +32,12 @@ const CommitItem = (props: CommitItemProps) => {
 			</div>
 			<div className="buttonsArea">
 				<Tooltip title="clique para copiar o link do commit">
-					<button onClick={() => navigator.clipboard.writeText(url)}>
+					<button onClick={() => copyHandler(url)}>
 						<LinkOutlined size={30} />
 					</button>
 				</Tooltip>
 				<Tooltip title="clique para copiar o commit">
-					<button onClick={() => navigator.clipboard.writeText(commit)}>
+					<button onClick={() => copyHandler(commit)}>
 						<CopyOutlined size={30} />
 					</button>
 				</Tooltip>
