@@ -9,6 +9,8 @@ import store from './shared/redux';
 import 'antd/dist/antd.css';
 import 'react-toastify/dist/ReactToastify.css';
 
+import { BrowserRouter } from 'react-router-dom';
+
 const root = ReactDOM.createRoot(
 	document.getElementById('root') as HTMLElement
 );
@@ -16,8 +18,10 @@ root.render(
 	<React.StrictMode>
 		<Provider store={store}>
 			<ThemeProvider theme={theme}>
-				<GlobalStyle />
-				<App />
+				<BrowserRouter>
+					<GlobalStyle />
+					<App />
+				</BrowserRouter>
 			</ThemeProvider>
 		</Provider>
 	</React.StrictMode>
