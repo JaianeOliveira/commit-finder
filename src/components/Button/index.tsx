@@ -7,7 +7,7 @@ type ButtonProps = {
 	buttonColor?: string | 'black' | 'gray' | 'white';
 	color?: string;
 	icon?: React.ReactNode;
-	onClick?: () => void;
+	onClick?: () => void | any;
 	submit?: boolean;
 	disabled?: boolean;
 };

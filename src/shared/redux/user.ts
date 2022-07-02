@@ -8,10 +8,10 @@ export interface UserSlice {
 }
 
 const initialState: UserSlice = {
-	name: null,
-	token: null,
-	profile: null,
-	user: null,
+	name: localStorage.getItem("name") || null,
+	token: localStorage.getItem("token") || null,
+	profile: localStorage.getItem("profile") || null,
+	user: localStorage.getItem("user") || null,
 };
 
 export const userSlice = createSlice({
@@ -23,12 +23,24 @@ export const userSlice = createSlice({
 			state.token = action.payload.token;
 			state.profile = action.payload.profile;
 			state.user = action.payload.user;
+
+			action.payload.token && localStorage.setItem("token", action.payload.token);
+			action.payload.user && localStorage.setItem("user", action.payload.user);
+			action.payload.name && localStorage.setItem("name", action.payload.name);
+			action.payload.profile && localStorage.setItem("profile", action.payload.profile);
+
 		},
 		removeUser: (state: UserSlice) => {
 			state.name = null;
 			state.token = null;
 			state.profile = null;
 			state.user = null;
+
+			localStorage.removeItem("token");
+			localStorage.removeItem("user");
+			localStorage.removeItem("name");
+			localStorage.removeItem("token");
+
 		},
 	},
 });

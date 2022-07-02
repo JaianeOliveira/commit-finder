@@ -8,8 +8,13 @@ export const getUser = async (token: string, setUser: (data: any) => void) => {
 			Authorization: `token ${token}`,
 		},
 	});
+	console.log(data)
 
 	if (data.status === 200) {
+		  localStorage.setItem("token", token);
+		  localStorage.setItem("user", data.data.login);
+		  localStorage.setItem("name", data.data.name);
+		  localStorage.setItem("profile", data.data.html_url);
 		setUser({
 			name: data.data.name,
 			token: token,
